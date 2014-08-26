@@ -1,0 +1,2 @@
+Resources/CandyKing/king/kingForestScaled.png 0 0 0
+0 0 467 498 227 234

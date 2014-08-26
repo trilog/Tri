@@ -1,0 +1,8 @@
+Resources/CandyKing/animals/pigScaled.png 0 0 0
+6
+Walk_1   0   0 217 116 172  63
+Walk_2   0 116 216 240 172 183
+Oink     0 240 264 363 196 305
+Death    0 364 200 501 167 445
+Eat_1  264   0 517  95 438  38
+Eat_2  269  97 517 192 442 137
