@@ -1,19 +1,15 @@
-#ifndef __DDISPLAYMANAGER__
-#define __DDISPLAYMANAGER__
+#pragma once
 
 class DDisplayManager
 {
     public:
               DDisplayManager ();
              ~DDisplayManager ();
+        bool  init            ();
         bool  initSDL         ();
         bool  initIMG         ();
-        bool  initTTF         ();
-        bool  isLegit         () { return imgLegit && sdlLegit && ttfLegit; }
+        bool  isLegit         () { return imgLegit && sdlLegit; }
     private:
         bool imgLegit;
         bool sdlLegit;
-        bool ttfLegit;
 };
-
-#endif /* DDisplayManager.h */

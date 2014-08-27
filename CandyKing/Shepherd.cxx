@@ -87,8 +87,8 @@ Animal* Shepherd::spawn(string animalName, int x, int y)
     clones.push_back(it->second);
     Animal* animal = &clones.back();
     animal->setPosition(x, y);
-    animal->showHitBox();
-    animal->showVectors();
+    // animal->showHitBox();
+    // animal->showVectors();
     animal->addSolids(solidShapes);
     return animal;
 }
@@ -101,7 +101,8 @@ void Shepherd::checkHit(int mouseX, int mouseY)
     {
         if (it->hit(mouseX, mouseY))
         {
-            score += it->kill();
+            score += it->getScore();
+            it->kill();
             dyingClones.splice(dyingClones.cbegin(), clones, it);
             break; // break so that only one hit will be registered even when there are overlapping animals
         }

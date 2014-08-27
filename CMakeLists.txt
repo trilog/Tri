@@ -8,6 +8,7 @@ set (CANDYKING_SOURCES
     CandyKing/Animal.cxx
     CandyKing/Shepherd.cxx
     CandyKing/King.cxx
+    CandyKing/OverGame.cxx
 )
 
 set (DBASE_SOURCES
@@ -19,6 +20,7 @@ set (DBASE_SOURCES
     DBase/DTextureManager.cxx
     DBase/DTimer.cxx
     DBase/DWindow.cxx
+    DBase/DFontManager.cxx
 )
 
 set (DGEOMETRY_SOURCES

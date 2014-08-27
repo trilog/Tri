@@ -4,23 +4,28 @@ using std::cerr;
 using std::endl;
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_ttf.h>
 
 // **************** Con/Destructors ***********************
 
 DDisplayManager::DDisplayManager():
-imgLegit(false), sdlLegit(false), ttfLegit(false)
+imgLegit(false), sdlLegit(false)
 {
 }
 
 DDisplayManager::~DDisplayManager()
 {
-    if (ttfLegit) TTF_Quit();
     if (imgLegit) IMG_Quit();
     if (sdlLegit) SDL_Quit();
 }
 
 // **************** init **********************************
+
+bool DDisplayManager::init()
+{
+    sdlLegit = initSDL();
+    imgLegit = initIMG();
+    return isLegit();
+}
 
 bool DDisplayManager::initSDL()
 {
@@ -28,12 +33,11 @@ bool DDisplayManager::initSDL()
     {
         cerr << "SDL did not initialize: " << SDL_GetError() << endl;
         sdlLegit = false;
-        return sdlLegit;
+        return false;
     }
     if (!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) cerr << "Warning VSync not enabled" << endl;
     if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) cerr << "Warning: linear texture filtering not enabled" << endl;
-    sdlLegit = true;
-    return sdlLegit;
+    return true;
 }
 
 bool DDisplayManager::initIMG()
@@ -41,22 +45,7 @@ bool DDisplayManager::initIMG()
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
     {
         cerr << "SDL_image did not initialize: " << IMG_GetError() << endl;
-        imgLegit = false;
-        return imgLegit;
+        return false;
     }
-    imgLegit = true;
-    return imgLegit;
+    return true;
 }
-
-bool DDisplayManager::initTTF()
-{
-    if (TTF_Init() == -1)
-    {
-        cerr << "SDL_ttf did not initialize" << TTF_GetError() << endl;
-        ttfLegit = false;
-        return ttfLegit;
-    }
-    ttfLegit = true;
-    return ttfLegit;
-}
-

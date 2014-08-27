@@ -144,7 +144,7 @@ void Animal::stateWalking()
     if (velocity > maxVelocity) velocity = maxVelocity;
     if (currentDistance > velocity)
     {
-        currentClip = (timer.elapsed()/100) % 2;
+        currentClip = (timer.elapsed()/150) % 2;
         pos.x += (int) (velocity * cos(theta));
         pos.y += (int) (velocity * sin(theta));
     }
@@ -160,7 +160,7 @@ void Animal::stateWalking()
 void Animal::stateEating()
 {
     texture->setAlpha(255);
-    currentClip = (timer.elapsed()/100) % 2 + 4;
+    currentClip = (timer.elapsed()/150) % 2 + 4;
 }
 
 void Animal::stateStanding()

@@ -1,5 +1,4 @@
-#ifndef __DWINDOW__
-#define __DWINDOW__
+#pragma once
 
 #include <SDL.h>
 
@@ -25,14 +24,12 @@ class DWindow
         bool  hasKeyboardFocus     () { return keyboardFocus; }
         bool  isShown              () { return shown; }
     private:
-        SDL_Window* window;
+        SDL_Window*   window;
         SDL_Renderer* renderer;
-        int   windowID;
-        int   width;
-        int   height;
-        bool  mouseFocus;
-        bool  keyboardFocus;
-        bool  shown;
+        int           windowID;
+        int           width;
+        int           height;
+        bool          mouseFocus;
+        bool          keyboardFocus;
+        bool          shown;
 };
-
-#endif /* DWindow.h */

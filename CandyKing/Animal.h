@@ -10,12 +10,12 @@ using std::vector;
 #include "DPolygon.h"
 #include "DSoundManager.h"
 
-enum AnimalState { asStanding, asWalking, asEating, asDying, asDead };
 
 class Animal
 {
     public:
                      Animal          ();
+        enum         AnimalState     { asStanding, asWalking, asEating, asDying, asDead };
         void         setImage        (DTexture* _texture, int x = 0, int y = 0);
         void         addSolids       (vector<DPolygon*> solidList)     { solidShapes = solidList; }
         void         render          ();
@@ -26,6 +26,7 @@ class Animal
         float        calcTheta       ();
         float        getTheta        ()                                { return theta; }
         float        getDistance     ();
+        int          getScore        ()                                { return maxPoints; }
         void         setClip         (string name, int x, int y, int w, int h, int focusX = 0, int focusY = 0);
         void         showHitBox      (bool _hitBoxShown = true)        { hitBoxShown = _hitBoxShown; }
         void         showVectors     (bool _vectorsShown = true)       { vectorsShown = _vectorsShown; }
