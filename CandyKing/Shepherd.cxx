@@ -87,8 +87,8 @@ Animal* Shepherd::spawn(string animalName, int x, int y)
     clones.push_back(it->second);
     Animal* animal = &clones.back();
     animal->setPosition(x, y);
-    // animal->showHitBox();
-    // animal->showVectors();
+    animal->showHitBox();
+    animal->showVectors();
     animal->addSolids(solidShapes);
     return animal;
 }
@@ -116,4 +116,18 @@ void Shepherd::render()
     dyingClones.remove_if(deadAnimal);
     for (Animal& it: dyingClones) it.render();
     for (Animal& it: clones) it.render();
+}
+
+// **************** Pause *********************************
+
+void Shepherd::pause()
+{
+    for (Animal& it: clones) it.pause();
+    for (Animal& it: dyingClones) it.pause();
+}
+
+void Shepherd::unpause()
+{
+    for (Animal& it: clones) it.unpause();
+    for (Animal& it: dyingClones) it.unpause();
 }

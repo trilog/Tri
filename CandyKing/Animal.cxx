@@ -142,18 +142,21 @@ void Animal::stateWalking()
     flip = (fabs(theta) > 0.5 * M_PI) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE;
     velocity = maxVelocity;
     if (velocity > maxVelocity) velocity = maxVelocity;
-    if (currentDistance > velocity)
+    if (!timer.isPaused())
     {
-        currentClip = (timer.elapsed()/150) % 2;
-        pos.x += (int) (velocity * cos(theta));
-        pos.y += (int) (velocity * sin(theta));
-    }
-    else 
-    {
-        state = asEating;
-        pos.x = dest.x;
-        pos.y = dest.y;
-        velocity = 0;
+        if (currentDistance > velocity)
+        {
+            currentClip = (timer.elapsed()/150) % 2;
+            pos.x += (int) (velocity * cos(theta));
+            pos.y += (int) (velocity * sin(theta));
+        }
+        else 
+        {
+            state = asEating;
+            pos.x = dest.x;
+            pos.y = dest.y;
+            velocity = 0;
+        }
     }
 }
 

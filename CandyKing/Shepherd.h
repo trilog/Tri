@@ -26,7 +26,9 @@ class Shepherd
         void    prune    ();
         void    checkHit (int mouseX, int mouseY);
         void    addSolid (DPolygon* poly) { solidShapes.push_back(poly); }
-        int     getScore () const { return score; };
+        int     getScore () const { return score; }
+        void    pause    ();
+        void    unpause  ();
     private:
         map<string, Animal> cloningPen;
         map<string, DImage> textures;

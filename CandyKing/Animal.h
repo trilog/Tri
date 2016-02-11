@@ -41,6 +41,8 @@ class Animal
         void         stateWalking    ();
         void         stateDying      ();
         void         stateEating     ();
+        void         pause           () { timer.pause(); }
+        void         unpause         () { timer.unpause(); }
     private:
         DTimer timer;
         DSoundManager* soundManager;

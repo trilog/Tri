@@ -42,6 +42,7 @@ Uint32 DTimer::unpause()
     {
         Uint32 pauseDuration = SDL_GetTicks() - pauseTicks;
         startTicks += pauseDuration;
+        pauseTicks = 0;
         return pauseDuration;
     }
     else return 0;
@@ -60,8 +61,9 @@ Uint32 DTimer::stop()
 
 Uint32 DTimer::elapsed()
 {
+    if (pauseTicks > 0) return pauseTicks - startTicks;
     if (startTicks > 0) return SDL_GetTicks() - startTicks;
-    else return 0;
+    return 0;
 }
 
 

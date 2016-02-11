@@ -10,7 +10,8 @@ using std::ostringstream;
 
 // **************** Con/Destructors ***********************
 
-OverGame::OverGame()
+OverGame::OverGame():
+paused(false)
 {
 }
 
@@ -72,11 +73,11 @@ void OverGame::runStage1()
     ostringstream scoreString;
     scoreString.str("Defend the king!");
     DText scoreText(scoreString.str(), renderer, chantelli, red);
-    soundManager.playMusic();
+    // soundManager.playMusic();
     SDL_Event event;
     // ************ Loop
     bool quit = false;
-    const Uint8* keyStates = SDL_GetKeyboardState(NULL);
+//    const Uint8* keyStates = SDL_GetKeyboardState(NULL);
     int mouseX = 0;
     int mouseY = 0;
     int score = 0;
@@ -86,32 +87,51 @@ void OverGame::runStage1()
         while (SDL_PollEvent(&event) != 0)
         {
             if (event.type == SDL_QUIT) quit = true;
-            if (keyStates[SDL_SCANCODE_ESCAPE]) quit = true;
-            if (event.type == SDL_MOUSEBUTTONDOWN)
+ //           if (keyStates[SDL_SCANCODE_ESCAPE])
+            if (event.type == SDL_KEYDOWN)
             {
-                Uint32 mouseState = SDL_GetMouseState(&mouseX, &mouseY);
-                mousePoint.set(mouseX, mouseY);
-                if (mouseState & SDL_BUTTON(1)) shepherd->checkHit(mouseX, mouseY);
-                // if (mouseState & SDL_BUTTON(2)) 
-                if (mouseState & SDL_BUTTON(3)) king->moveCenter(mousePoint);
+                switch (event.key.keysym.sym)
+                {
+                    case SDLK_ESCAPE:
+                        paused = !paused;
+                        if (paused) shepherd->pause();
+                        else shepherd->unpause();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (!paused) 
+            {
+                if (event.type == SDL_MOUSEBUTTONDOWN)
+                {
+                    Uint32 mouseState = SDL_GetMouseState(&mouseX, &mouseY);
+                    mousePoint.set(mouseX, mouseY);
+                    if (mouseState & SDL_BUTTON(1)) shepherd->checkHit(mouseX, mouseY);
+                    // if (mouseState & SDL_BUTTON(2)) 
+                    if (mouseState & SDL_BUTTON(3)) king->moveCenter(mousePoint);
+                }
             }
         }
-        if (spawnTimer.elapsed() > 700)
+        if (!paused)
         {
-            spawnTimer.start();
-            float theta = distribution(generator);
-            int x = (int) (720.0 * cos(theta) + windowWidth/2);
-            int y = (int) (720.0 * sin(theta) + windowHeight/2);
-            DPoint kingCenter = king->getPosition() + king->getFocus();
-            shepherd->spawn("pig", x, y)->setDestination(kingCenter);
-        }
-        score = shepherd->getScore();
-        if (score > 0)
-        {
-            scoreString.str("");
-            scoreString << "Score: " << score;
-            scoreText.setText(scoreString.str());
-            scoreString.flush();
+            if (spawnTimer.elapsed() > 700)
+            {
+                spawnTimer.start();
+                float theta = distribution(generator);
+                int x = (int) (720.0 * cos(theta) + windowWidth/2);
+                int y = (int) (720.0 * sin(theta) + windowHeight/2);
+                DPoint kingCenter = king->getPosition() + king->getFocus();
+                shepherd->spawn("pig", x, y)->setDestination(kingCenter);
+            }
+            score = shepherd->getScore();
+            if (score > 0)
+            {
+                scoreString.str("");
+                scoreString << "Score: " << score;
+                scoreText.setText(scoreString.str());
+                scoreString.flush();
+            }
         }
         // ******** Clear
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
@@ -124,6 +144,11 @@ void OverGame::runStage1()
         // king->renderPoly();
         shepherd->render();
         // windowCenter.renderCross(renderer, blue, 8);
+        if (paused)
+        {
+            SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x99);
+            SDL_RenderFillRect(renderer, &window.getRect());
+        }
         // ******** Render
         SDL_RenderPresent(renderer);
     }

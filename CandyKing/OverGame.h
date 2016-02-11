@@ -36,4 +36,5 @@ class OverGame
         DImage          background;
         King*           king;
         Shepherd*       shepherd;
+        bool            paused;
 };

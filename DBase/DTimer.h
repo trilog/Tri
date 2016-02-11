@@ -1,5 +1,4 @@
-#ifndef __DTIMER__
-#define __DTIMER__
+#pragma once
 
 #include <SDL.h>
 
@@ -13,9 +12,8 @@ class DTimer
         Uint32  unpause();
         Uint32  stop();
         Uint32  elapsed();
+        bool    isPaused() { return pauseTicks > 0; }
     private:
         Uint32 startTicks;
         Uint32 pauseTicks;
 };
-
-#endif /* DTimer.h */

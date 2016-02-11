@@ -7,7 +7,6 @@ using std::endl;
 
 DWindow::DWindow():
 window(NULL), renderer(NULL), 
-width(0), height(0),
 mouseFocus(false), keyboardFocus(false), shown(false)
 {
 }
@@ -26,10 +25,12 @@ DWindow::~DWindow()
     }
 }
 
-bool DWindow::initWindow(const char* windowTitle, int _width, int _height)
+bool DWindow::initWindow(const char* windowTitle, int width, int height)
 {
-    width = _width;
-    height = _height;
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = width;
+    rect.h = height;
     window = SDL_CreateWindow(windowTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     if (window == NULL)
     {
@@ -52,6 +53,7 @@ bool DWindow::initRenderer()
         cerr << "Error: Could not create renderer: " << SDL_GetError() << endl;
         return false;
     }
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     shown = true;
     return true;
@@ -70,8 +72,8 @@ void DWindow::handleEvent(SDL_Event& event)
                 shown = false;
                 break;
             case SDL_WINDOWEVENT_SIZE_CHANGED:
-                width = event.window.data1;
-                height = event.window.data2;
+                rect.w = event.window.data1;
+                rect.h = event.window.data2;
                 SDL_RenderPresent(renderer);
                 break;
             case SDL_WINDOWEVENT_EXPOSED:
